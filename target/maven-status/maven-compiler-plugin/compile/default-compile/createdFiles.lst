@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Model\peserta.class
 dao\PesertaDAO.class
 latihan\LatihanBidangDatar.class
@@ -10,4 +11,14 @@ view\FormPeserta.class
 app\DemoKursus.class
 view\FormPendaftaranAwal.class
 config\Database.class
+=======
+Model\orang.class
+app\DemoInheritance.class
+Model\peserta.class
+Latihanbiayakursus.class
+Model\instruktur.class
+latihan\LatihanBidangDatar.class
+app\DemoKursus.class
+view\FormPendaftaranAwal.class
+>>>>>>> 4f759feb040f8e3ff69ae50d37edb463e5073700
 Model\Kursus.class

@@ -28,6 +28,7 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
+<<<<<<< HEAD
     <dependencies>
         <dependency>
             <groupId>com.mysql</groupId>
@@ -35,4 +36,6 @@
             <version>9.7.0</version>
         </dependency>
     </dependencies>
+=======
+>>>>>>> 4f759feb040f8e3ff69ae50d37edb463e5073700
 </project>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 C:\Users\USER\Downloads\sikursus-desktop-main\sikursus-desktop-main\sikursus-desktop-main\src\main\java\app\DemoInheritance.java
 C:\Users\USER\Downloads\sikursus-desktop-main\sikursus-desktop-main\sikursus-desktop-main\src\main\java\app\DemoKursus.java
 C:\Users\USER\Downloads\sikursus-desktop-main\sikursus-desktop-main\sikursus-desktop-main\src\main\java\config\Database.java
@@ -11,3 +12,14 @@ C:\Users\USER\Downloads\sikursus-desktop-main\sikursus-desktop-main\sikursus-des
 C:\Users\USER\Downloads\sikursus-desktop-main\sikursus-desktop-main\sikursus-desktop-main\src\main\java\Model\peserta.java
 C:\Users\USER\Downloads\sikursus-desktop-main\sikursus-desktop-main\sikursus-desktop-main\src\main\java\view\FormPendaftaranAwal.java
 C:\Users\USER\Downloads\sikursus-desktop-main\sikursus-desktop-main\sikursus-desktop-main\src\main\java\view\FormPeserta.java
+=======
+C:\Users\FUJI\OneDrive\Dokumen\sikursus-desktop-master\src\main\java\app\DemoInheritance.java
+C:\Users\FUJI\OneDrive\Dokumen\sikursus-desktop-master\src\main\java\app\DemoKursus.java
+C:\Users\FUJI\OneDrive\Dokumen\sikursus-desktop-master\src\main\java\latihan\Latihanbiayakursus.java
+C:\Users\FUJI\OneDrive\Dokumen\sikursus-desktop-master\src\main\java\latihan\LatihanBidangDatar.java
+C:\Users\FUJI\OneDrive\Dokumen\sikursus-desktop-master\src\main\java\Model\instruktur.java
+C:\Users\FUJI\OneDrive\Dokumen\sikursus-desktop-master\src\main\java\Model\Kursus.java
+C:\Users\FUJI\OneDrive\Dokumen\sikursus-desktop-master\src\main\java\Model\orang.java
+C:\Users\FUJI\OneDrive\Dokumen\sikursus-desktop-master\src\main\java\Model\peserta.java
+C:\Users\FUJI\OneDrive\Dokumen\sikursus-desktop-master\src\main\java\view\FormPendaftaranAwal.java
+>>>>>>> 4f759feb040f8e3ff69ae50d37edb463e5073700
