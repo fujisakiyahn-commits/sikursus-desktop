@@ -1,0 +1,13 @@
+Model\peserta.class
+dao\PesertaDAO.class
+latihan\LatihanBidangDatar.class
+config\TestDatabase.class
+Model\orang.class
+app\DemoInheritance.class
+Latihanbiayakursus.class
+Model\instruktur.class
+view\FormPeserta.class
+app\DemoKursus.class
+view\FormPendaftaranAwal.class
+config\Database.class
+Model\Kursus.class
