@@ -30,17 +30,22 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import model.Peserta;
 import dao.PesertaDAO;
+import java.awt.HeadlessException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class MasterPeserta extends JFrame {
 
-    // Kombinasi Warna Pastel Pink & Deep Purple
-private final Color warnaLatar = new Color(253, 242, 248);   // Soft Pastel Pink (Latar Belakang)
-private final Color warnaHeader = new Color(219, 39, 119);    // Pink Medium (Header)
-private final Color warnaSimpan = new Color(46, 125, 50);    // Hijau Emerald (Simpan - Kesan sukses/baru)
-private final Color warnaUbah = new Color(217, 119, 6);      // Amber / Kuning Tua (Ubah - Kesan edit/hati-hati)
-private final Color warnaHapus = new Color(229, 57, 53);     // Merah (Hapus - Kesan peringatan/danger)
-private final Color warnaReset = new Color(107, 114, 128);   // Abu-abu Elegan (Reset - Netral)
-private final Color warnaCetak = new Color(30, 136, 229);    // Biru (Cetak Semua - Profesional)
+    // Tema Ocean Blue
+    private final Color warnaLatar = new Color(240, 249, 255);  // Soft Pastel Blue
+    private final Color warnaHeader = new Color(2, 132, 199);    // Ocean Blue
+    private final Color warnaSimpan = new Color(22, 163, 74);    // Hijau Daun
+    private final Color warnaUbah = new Color(202, 138, 4);      // Kuning Emas
+    private final Color warnaHapus = new Color(239, 68, 68);     // Merah Terang
+    private final Color warnaReset = new Color(113, 113, 122);   // Zinc Gray
+    private final Color warnaCetak = new Color(79, 70, 229);     // Indigo
+
     private JPanel panelUtama;
     private JPanel panelHeader;
     private JPanel panelForm;
@@ -91,9 +96,9 @@ private final Color warnaCetak = new Color(30, 136, 229);    // Biru (Cetak Semu
         txtRingkasan.setEditable(false);
         getRootPane().setDefaultButton(btnSimpan);
 
-        // Ukuran jendela disesuaikan agar proporsional
+        // Diperbesar tingginya agar tabel bawah tampil sempurna tanpa terpotong
         setMinimumSize(new Dimension(850, 950));
-        setSize(new Dimension(900, 980));
+        setSize(new Dimension(900, 1020));
         setLocationRelativeTo(null);
 
         // Memuat data ke JTable saat form pertama kali dibuka
@@ -111,7 +116,6 @@ private final Color warnaCetak = new Color(30, 136, 229);    // Biru (Cetak Semu
         panelBawah = new JPanel(new BorderLayout(0, 10));
         panelCari = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
 
-        // Judul form diubah menjadi "Master Data Peserta"
         lblJudul = new JLabel("Master Data Peserta", SwingConstants.CENTER);
         lblNim = new JLabel("Nim");
         lblNama = new JLabel("Nama Peserta");
@@ -148,7 +152,7 @@ private final Color warnaCetak = new Color(30, 136, 229);    // Biru (Cetak Semu
         cbSertifikat = new JCheckBox("Sertifikat");
         cbRekaman = new JCheckBox("Akses Rekaman");
         
-        txtRingkasan = new JTextArea(4, 20);
+        txtRingkasan = new JTextArea(3, 20);
         scrollRingkasan = new JScrollPane(txtRingkasan);
 
         // Tombol CRUD & Cetak Semua
@@ -159,7 +163,7 @@ private final Color warnaCetak = new Color(30, 136, 229);    // Biru (Cetak Semu
         btnCetakSemua = new JButton("Cetak Semua");
         btnCari = new JButton("Cari");
 
-        // Inisialisasi JTable Data Peserta
+        // Inisialisasi JTable Data Peserta (Tinggi scroll diperbesar agar muat banyak baris)
         tableModel = new DefaultTableModel(new String[]{"NIM", "Nama", "JK", "Prodi", "No HP", "Email"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -168,9 +172,9 @@ private final Color warnaCetak = new Color(30, 136, 229);    // Biru (Cetak Semu
         };
         tablePeserta = new JTable(tableModel);
         scrollTable = new JScrollPane(tablePeserta);
-        scrollTable.setPreferredSize(new Dimension(800, 160));
+        scrollTable.setPreferredSize(new Dimension(840, 200));
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("SIKURSUS Desktop - Master Data Peserta");
 
         // Background Styling
@@ -189,9 +193,9 @@ private final Color warnaCetak = new Color(30, 136, 229);    // Biru (Cetak Semu
         lblJudul.setPreferredSize(new Dimension(100, 60));
         panelHeader.add(lblJudul, BorderLayout.CENTER);
 
-        // Label Font Style
+        // Label Font Style (Disesuaikan dengan tema Ocean Blue)
         Font fontLabel = new Font("Segoe UI", Font.BOLD, 13);
-        Color warnaTeksLabel = new Color(74, 20, 140);
+        Color warnaTeksLabel = new Color(2, 110, 168); 
         
         JLabel[] allLabels = {lblNim, lblNama, lblJenisKelamin, lblProdi, lblNoHp, lblEmail, lblKodeAkses, lblKursus, lblFasilitas, lblRingkasan, lblCari};
         for (JLabel lbl : allLabels) {
@@ -211,14 +215,13 @@ private final Color warnaCetak = new Color(30, 136, 229);    // Biru (Cetak Semu
         panelFasilitas.add(cbSertifikat);
         panelFasilitas.add(cbRekaman);
 
-        // Styling Tombol (Reset warna oranye, Cari warna biru sama dengan Ubah)
+        // Styling Tombol
         setupButton(btnSimpan, warnaSimpan, Color.WHITE, 100, 34);
         setupButton(btnUbah, warnaUbah, Color.WHITE, 90, 34);
         setupButton(btnHapus, warnaHapus, Color.WHITE, 90, 34);
-        setupButton(btnReset, warnaReset, Color.WHITE, 90, 34);       // Tombol Reset warna oranye (lebih aman)
+        setupButton(btnReset, warnaReset, Color.WHITE, 90, 34);
         setupButton(btnCetakSemua, warnaCetak, Color.WHITE, 120, 34);
-
-        setupButton(btnCari, warnaUbah, Color.WHITE, 90, 30);         // Tombol Cari warna biru (sama dengan Ubah)
+        setupButton(btnCari, warnaUbah, Color.WHITE, 90, 30);
 
         // Susunan Tombol
         panelTombol.add(btnSimpan);
@@ -228,7 +231,7 @@ private final Color warnaCetak = new Color(30, 136, 229);    // Biru (Cetak Semu
         panelTombol.add(btnCetakSemua);
 
         // Dimensi Input Field Form
-        Dimension dimField = new Dimension(540, 30);
+        Dimension dimField = new Dimension(540, 28);
         txtNim.setPreferredSize(dimField);
         txtNama.setPreferredSize(dimField);
         txtProdi.setPreferredSize(dimField);
@@ -236,9 +239,9 @@ private final Color warnaCetak = new Color(30, 136, 229);    // Biru (Cetak Semu
         txtEmail.setPreferredSize(dimField);
         txtKodeAkses.setPreferredSize(dimField);
         cmbKursus.setPreferredSize(dimField);
-        scrollRingkasan.setPreferredSize(new Dimension(540, 90));
+        scrollRingkasan.setPreferredSize(new Dimension(540, 70));
 
-        panelForm.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        panelForm.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
 
         // Menyusun Form menggunakan GridBagLayout
         addRow(0, lblNim, txtNim);
@@ -258,7 +261,7 @@ private final Color warnaCetak = new Color(30, 136, 229);    // Biru (Cetak Semu
         gbcTombol.gridy = 10;
         gbcTombol.gridwidth = 2;
         gbcTombol.anchor = GridBagConstraints.CENTER;
-        gbcTombol.insets = new Insets(15, 0, 10, 0);
+        gbcTombol.insets = new Insets(10, 0, 5, 0);
         panelForm.add(panelTombol, gbcTombol);
 
         // Panel Bawah (Pencarian & Tabel Data Peserta)
@@ -278,8 +281,20 @@ private final Color warnaCetak = new Color(30, 136, 229);    // Biru (Cetak Semu
 
         // Event Listeners Tombol & Tabel
         btnSimpan.addActionListener(evt -> btnSimpanActionPerformed());
-        btnUbah.addActionListener(evt -> btnUbahActionPerformed());
-        btnHapus.addActionListener(evt -> btnHapusActionPerformed());
+        btnUbah.addActionListener(evt -> {
+            try {
+                btnUbahActionPerformed();
+            } catch (SQLException ex) {
+                Logger.getLogger(MasterPeserta.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        btnHapus.addActionListener(evt -> {
+            try {
+                btnHapusActionPerformed();
+            } catch (SQLException ex) {
+                Logger.getLogger(MasterPeserta.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
         btnReset.addActionListener(evt -> btnResetActionPerformed());
         btnCetakSemua.addActionListener(evt -> btnCetakSemuaActionPerformed());
         btnCari.addActionListener(evt -> prosesCariData());
@@ -287,6 +302,7 @@ private final Color warnaCetak = new Color(30, 136, 229);    // Biru (Cetak Semu
         txtCari.addActionListener(evt -> prosesCariData()); 
 
         tablePeserta.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablePesertaMouseClicked();
             }
@@ -311,7 +327,7 @@ private final Color warnaCetak = new Color(30, 136, 229);    // Biru (Cetak Semu
         GridBagConstraints cLabel = new GridBagConstraints();
         cLabel.gridx = 0; cLabel.gridy = row;
         cLabel.anchor = GridBagConstraints.NORTHWEST;
-        cLabel.insets = new Insets(6, 0, 6, 20);
+        cLabel.insets = new Insets(4, 0, 4, 20);
         panelForm.add(label, cLabel);
 
         GridBagConstraints cField = new GridBagConstraints();
@@ -319,7 +335,7 @@ private final Color warnaCetak = new Color(30, 136, 229);    // Biru (Cetak Semu
         cField.weightx = 1.0;
         cField.fill = GridBagConstraints.HORIZONTAL;
         cField.anchor = GridBagConstraints.NORTHWEST;
-        cField.insets = new Insets(4, 0, 4, 0);
+        cField.insets = new Insets(2, 0, 2, 0);
         panelForm.add(component, cField);
     }
 
@@ -434,7 +450,7 @@ private final Color warnaCetak = new Color(30, 136, 229);    // Biru (Cetak Semu
         }
     }
 
-    private void btnUbahActionPerformed() {
+    private void btnUbahActionPerformed() throws SQLException {
         String nim = txtNim.getText().trim();
         String nama = txtNama.getText().trim();
         String prodi = txtProdi.getText().trim();
@@ -458,12 +474,12 @@ private final Color warnaCetak = new Color(30, 136, 229);    // Biru (Cetak Semu
             } else {
                 JOptionPane.showMessageDialog(this, "Data gagal diubah.", "Informasi", JOptionPane.WARNING_MESSAGE);
             }
-        } catch (Exception e) {
+        } catch (HeadlessException e) {
             JOptionPane.showMessageDialog(this, "Gagal mengubah data:\n" + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void btnHapusActionPerformed() {
+    private void btnHapusActionPerformed() throws SQLException {
         String nim = txtNim.getText().trim();
         if (nim.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Pilih data peserta yang ingin dihapus dari tabel!", "Validasi", JOptionPane.WARNING_MESSAGE);
@@ -482,7 +498,7 @@ private final Color warnaCetak = new Color(30, 136, 229);    // Biru (Cetak Semu
                 } else {
                     JOptionPane.showMessageDialog(this, "Data gagal dihapus.", "Informasi", JOptionPane.WARNING_MESSAGE);
                 }
-            } catch (Exception e) {
+            } catch (HeadlessException e) {
                 JOptionPane.showMessageDialog(this, "Gagal menghapus data:\n" + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -530,7 +546,7 @@ private final Color warnaCetak = new Color(30, 136, 229);    // Biru (Cetak Semu
                     break;
                 }
             }
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MasterPeserta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         java.awt.EventQueue.invokeLater(() -> {

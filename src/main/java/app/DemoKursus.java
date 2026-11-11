@@ -1,6 +1,6 @@
 package app;
 
-import model.Kursus;
+import model.Kursus; // Diperbaiki dari "Model.Kursus" menjadi "model.Kursus"
 
 public class DemoKursus {
     public static void main(String[] args) {

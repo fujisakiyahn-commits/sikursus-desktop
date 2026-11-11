@@ -31,8 +31,8 @@ import dao.PesertaDAO;
 public class FormPeserta extends JFrame {
 
     // Kombinasi Warna Pastel Pink & Deep Purple (Kontras & Tulisan Jelas)
-    private final Color warnaLatar = new Color(245, 238, 245);      // Soft Greyish Pink
-    private final Color warnaHeader = new Color(219, 39, 119);
+    private final Color warnaLatar = new Color(245, 238, 245);     // Soft Greyish Pink
+    private final Color warnaHeader = new Color(136, 14, 79);      // Deep Royal Purple
     private final Color warnaSimpan = new Color(136, 14, 79);      // Ungu Tua Kontras untuk Tombol Simpan
     private final Color warnaReset = new Color(255, 255, 255);     // Putih (Tombol Reset)
 
@@ -75,8 +75,8 @@ public class FormPeserta extends JFrame {
         txtRingkasan.setEditable(false);
         getRootPane().setDefaultButton(btnSimpan);
 
-        // Ukuran jendela diperbesar dan diatur proporsional
-        setMinimumSize(new Dimension(800, 700));
+        // Ukuran jendela besar dan proporsional
+        setMinimumSize(new Dimension(800, 750));
         setSize(new Dimension(850, 800));
         setLocationRelativeTo(null);
     }
@@ -89,6 +89,7 @@ public class FormPeserta extends JFrame {
         panelFasilitas = new JPanel(new FlowLayout(FlowLayout.LEFT, 14, 0));
         panelTombol = new JPanel(new FlowLayout(FlowLayout.CENTER, 24, 0));
 
+        // Teks Judul disesuaikan menjadi Form Data Peserta Kursus
         lblJudul = new JLabel("Form Data Peserta Kursus", SwingConstants.CENTER);
         lblNim = new JLabel("Nim");
         lblNama = new JLabel("Nama Peserta");
@@ -123,7 +124,7 @@ public class FormPeserta extends JFrame {
         cbSertifikat = new JCheckBox("Sertifikat");
         cbRekaman = new JCheckBox("Akses Rekaman");
         
-        txtRingkasan = new JTextArea(5, 20);
+        txtRingkasan = new JTextArea(8, 20);
         scrollRingkasan = new JScrollPane(txtRingkasan);
 
         btnSimpan = new JButton("Simpan ke Database");
@@ -143,12 +144,12 @@ public class FormPeserta extends JFrame {
         // Header Style
         lblJudul.setFont(new Font("Segoe UI", Font.BOLD, 22));
         lblJudul.setForeground(Color.WHITE);
-        lblJudul.setPreferredSize(new Dimension(100, 65));
+        lblJudul.setPreferredSize(new Dimension(100, 70));
         panelHeader.add(lblJudul, BorderLayout.CENTER);
 
         // Label Font Style
         Font fontLabel = new Font("Segoe UI", Font.BOLD, 13);
-        Color warnaTeksLabel = new Color(74, 20, 140);
+        Color warnaTeksLabel = new Color(74, 20, 140); // Ungu gelap untuk teks samping
         
         JLabel[] allLabels = {lblNim, lblNama, lblJenisKelamin, lblProdi, lblNoHp, lblEmail, lblKodeAkses, lblKursus, lblFasilitas, lblRingkasan};
         for (JLabel lbl : allLabels) {
@@ -169,7 +170,7 @@ public class FormPeserta extends JFrame {
         panelFasilitas.add(cbSertifikat);
         panelFasilitas.add(cbRekaman);
 
-        // Tombol Simpan Style
+        // Tombol Simpan ke Database Style (Ungu tua + teks putih kontras)
         btnSimpan.setBackground(warnaSimpan);
         btnSimpan.setForeground(Color.WHITE);
         btnSimpan.setFont(new Font("Segoe UI", Font.BOLD, 12));
@@ -191,7 +192,7 @@ public class FormPeserta extends JFrame {
         panelTombol.add(btnReset);
 
         // Mengatur Dimensi Input Field
-        Dimension dimField = new Dimension(540, 32);
+        Dimension dimField = new Dimension(540, 34);
         txtNim.setPreferredSize(dimField);
         txtNama.setPreferredSize(dimField);
         txtProdi.setPreferredSize(dimField);
@@ -200,9 +201,9 @@ public class FormPeserta extends JFrame {
         txtKodeAkses.setPreferredSize(dimField);
         cmbKursus.setPreferredSize(dimField);
         
-        scrollRingkasan.setPreferredSize(new Dimension(540, 110));
+        scrollRingkasan.setPreferredSize(new Dimension(540, 180));
 
-        panelForm.setBorder(BorderFactory.createEmptyBorder(15, 24, 15, 24));
+        panelForm.setBorder(BorderFactory.createEmptyBorder(20, 24, 20, 24));
 
         // Menyusun secara berurutan ke bawah menggunakan GridBagLayout
         addRow(0, lblNim, txtNim);
@@ -223,18 +224,11 @@ public class FormPeserta extends JFrame {
         tombolConstraints.weightx = 1.0;
         tombolConstraints.fill = GridBagConstraints.HORIZONTAL;
         tombolConstraints.anchor = GridBagConstraints.CENTER;
-        tombolConstraints.insets = new Insets(16, 8, 10, 0);
+        tombolConstraints.insets = new Insets(24, 8, 0, 0);
         panelForm.add(panelTombol, tombolConstraints);
 
-        // Bungkus panelForm dengan JScrollPane agar bisa digulir ke bawah dan tidak terpotong
-        JScrollPane scrollForm = new JScrollPane(panelForm);
-        scrollForm.setBorder(BorderFactory.createEmptyBorder());
-        scrollForm.getVerticalScrollBar().setUnitIncrement(16);
-        scrollForm.setBackground(warnaLatar);
-        scrollForm.getViewport().setBackground(warnaLatar);
-
         panelUtama.add(panelHeader, BorderLayout.NORTH);
-        panelUtama.add(scrollForm, BorderLayout.CENTER);
+        panelUtama.add(panelForm, BorderLayout.CENTER);
         setContentPane(panelUtama);
     }
 
@@ -243,7 +237,7 @@ public class FormPeserta extends JFrame {
         cLabel.gridx = 0;
         cLabel.gridy = row;
         cLabel.anchor = GridBagConstraints.NORTHWEST;
-        cLabel.insets = new Insets(6, 0, 6, 20);
+        cLabel.insets = new Insets(10, 0, 10, 20);
         panelForm.add(label, cLabel);
 
         GridBagConstraints cField = new GridBagConstraints();
@@ -252,7 +246,7 @@ public class FormPeserta extends JFrame {
         cField.weightx = 1.0;
         cField.fill = GridBagConstraints.HORIZONTAL;
         cField.anchor = GridBagConstraints.NORTHWEST;
-        cField.insets = new Insets(4, 0, 4, 0);
+        cField.insets = new Insets(6, 0, 6, 0);
         panelForm.add(component, cField);
     }
 
@@ -268,89 +262,90 @@ public class FormPeserta extends JFrame {
         buttonGroupJenisKelamin.clearSelection();
         txtProdi.setText("");
         txtNoHp.setText("");
-        txtEmail.setText("");
-        txtKodeAkses.setText("");
-        cmbKursus.setSelectedIndex(0);
-        cbModul.setSelected(false);
-        cbSertifikat.setSelected(false);
-        cbRekaman.setSelected(false);
-        txtRingkasan.setText("");
-        txtNim.requestFocus();
+txtEmail.setText("");
+txtKodeAkses.setText("");
+cmbKursus.setSelectedIndex(0);
+cbModul.setSelected(false);
+cbSertifikat.setSelected(false);
+cbRekaman.setSelected(false);
+txtRingkasan.setText("");
+txtNim.requestFocus();
+}
+// =========================================================================
+// LOGIKA PROSES & SIMPAN KE DATABASE (DUAL ACTION)
+// =========================================================================
+private void btnSimpanActionPerformed() {
+    String nim = txtNim.getText().trim();
+    String nama = txtNama.getText().trim();
+    String prodi = txtProdi.getText().trim();
+    String noHp = txtNoHp.getText().trim();
+    String email = txtEmail.getText().trim();
+    String jk = getJenisKelamin();
+    
+    if (nim.isEmpty() || nama.isEmpty() || prodi.isEmpty() || jk.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "NIM, nama, jenis kelamin, dan prodi wajib diisi.", "Validasi", JOptionPane.WARNING_MESSAGE);
+    return;
     }
-
-    private void btnSimpanActionPerformed() {
-        String nim = txtNim.getText().trim();
-        String nama = txtNama.getText().trim();
-        String prodi = txtProdi.getText().trim();
-        String noHp = txtNoHp.getText().trim();
-        String email = txtEmail.getText().trim();
-        String jk = getJenisKelamin();
-        
-        if (nim.isEmpty() || nama.isEmpty() || prodi.isEmpty() || jk.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "NIM, nama, jenis kelamin, dan prodi wajib diisi.", "Validasi", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        if (cmbKursus.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(this, "Silakan pilih kursus terlebih dahulu.", "Validasi Kursus", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-       
-        Peserta peserta = new Peserta(nim, nama, jk, prodi, noHp, email);
-        PesertaDAO dao = new PesertaDAO();
-        try {
-            boolean berhasilSimpan = dao.insert(peserta);
-            if (berhasilSimpan) {
-                String kursusPilihan = cmbKursus.getSelectedItem().toString();
-                String jkLengkap = jk.equals("L") ? "Laki-Laki" : "Perempuan";
-                StringBuilder sb = new StringBuilder();
-                sb.append("===== DATA PESERTA BERHASIL DISIMPAN =====\n");
-                sb.append("NIM             : ").append(nim).append("\n");
-                sb.append("Nama Peserta    : ").append(nama).append("\n");
-                sb.append("Jenis Kelamin   : ").append(jkLengkap).append("\n");
-                sb.append("Program Studi   : ").append(prodi).append("\n");
-                sb.append("Nomor HP        : ").append(noHp).append("\n");
-                sb.append("Email           : ").append(email).append("\n");
-                sb.append("Kursus Diikuti  : ").append(kursusPilihan).append("\n");
-                sb.append("Fasilitas Tambahan:\n");
-                if (cbModul.isSelected()) sb.append(" - Modul Cetak\n");
-                if (cbSertifikat.isSelected()) sb.append(" - Sertifikat\n");
-                if (cbRekaman.isSelected()) sb.append(" - Akses Rekaman\n");
-                if (!cbModul.isSelected() && !cbSertifikat.isSelected() && !cbRekaman.isSelected()) {
-                    sb.append(" - Tanpa Fasilitas Tambahan\n");
-                }
-                sb.append("==============================================\n");
-                txtRingkasan.setText(sb.toString());
-             
-                JOptionPane.showMessageDialog(this, "Data peserta berhasil disimpan.", "Sukses", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Data tidak tersimpan.", "Informasi", JOptionPane.WARNING_MESSAGE);
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Gagal menyimpan data:\n" + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
+    if (cmbKursus.getSelectedIndex() == 0) {
+    JOptionPane.showMessageDialog(this, "Silakan pilih kursus terlebih dahulu.", "Validasi Kursus", JOptionPane.WARNING_MESSAGE);
+    return;
     }
-
-    private void btnResetActionPerformed() {
-        int jawab = JOptionPane.showConfirmDialog(this, "Kosongkan seluruh data form?", "Konfirmasi Reset", JOptionPane.YES_NO_OPTION);
-        if (jawab == JOptionPane.YES_OPTION) {
-            clearForm();
-        }
+   
+    Peserta peserta = new Peserta(nim, nama, jk, prodi, noHp, email);
+    PesertaDAO dao = new PesertaDAO();
+    try {
+    boolean berhasilSimpan = dao.insert(peserta);
+    if (berhasilSimpan) {
+    
+    String kursusPilihan = cmbKursus.getSelectedItem().toString();
+    String jkLengkap = jk.equals("L") ? "Laki-Laki" : "Perempuan";
+    StringBuilder sb = new StringBuilder();
+    sb.append("===== DATA PESERTA BERHASIL DISIMPAN =====\n");
+    sb.append("NIM             : ").append(nim).append("\n");
+    sb.append("Nama Peserta    : ").append(nama).append("\n");
+    sb.append("Jenis Kelamin   : ").append(jkLengkap).append("\n");
+    sb.append("Program Studi   : ").append(prodi).append("\n");
+    sb.append("Nomor HP        : ").append(noHp).append("\n");
+    sb.append("Email           : ").append(email).append("\n");
+    sb.append("Kursus Diikuti  : ").append(kursusPilihan).append("\n");
+    sb.append("Fasilitas Tambahan:\n");
+    if (cbModul.isSelected()) sb.append(" - Modul Cetak\n");
+    if (cbSertifikat.isSelected()) sb.append(" - Sertifikat\n");
+    if (cbRekaman.isSelected()) sb.append(" - Akses Rekaman\n");
+    if (!cbModul.isSelected() && !cbSertifikat.isSelected() && !cbRekaman.isSelected()) {
+    sb.append(" - Tanpa Fasilitas Tambahan\n");
     }
-
-    public static void main(String[] args) {
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(FormPeserta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        java.awt.EventQueue.invokeLater(() -> {
-            new FormPeserta().setVisible(true);
-        });
+    sb.append("==============================================\n");
+    txtRingkasan.setText(sb.toString());
+ 
+    JOptionPane.showMessageDialog(this, "Data peserta berhasil disimpan.", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+    } else {
+    JOptionPane.showMessageDialog(this, "Data tidak tersimpan.", "Informasi", JOptionPane.WARNING_MESSAGE);
     }
+    } catch (SQLException e) {
+    JOptionPane.showMessageDialog(this, "Gagal menyimpan data:\n" + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+    e.printStackTrace();
+}
+}
+private void btnResetActionPerformed() {
+int jawab = JOptionPane.showConfirmDialog(this, "Kosongkan seluruh data form?", "Konfirmasi Reset", JOptionPane.YES_NO_OPTION);
+if (jawab == JOptionPane.YES_OPTION) {
+clearForm();
+}
+}
+public static void main(String[] args) {
+try {
+for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+if ("Nimbus".equals(info.getName())) {
+UIManager.setLookAndFeel(info.getClassName());
+break;
+}
+}
+} catch (Exception ex) {
+java.util.logging.Logger.getLogger(FormPeserta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+}
+java.awt.EventQueue.invokeLater(() -> {
+new FormPeserta().setVisible(true);
+});
+}
 }

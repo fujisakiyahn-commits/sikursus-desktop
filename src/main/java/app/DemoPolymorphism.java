@@ -1,5 +1,6 @@
 package app;
 
+import model.Orang;
 import java.util.ArrayList;
 import java.util.List;
 import model.Admin;
