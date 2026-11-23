@@ -16,6 +16,7 @@ app\UjiValidasi$Aksi.class
 util\WindowManager$1.class
 view\FormPendaftaranKursus.class
 app\UjiValidasi$9.class
+report\ReportService.class
 view\PesertaFrame$1.class
 view\LoginFrame.class
 view\KelasFrame.class
