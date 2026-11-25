@@ -1,4 +1,3 @@
-
 package view;
 
 import java.awt.BorderLayout;
@@ -80,7 +79,7 @@ public class MasterPeserta extends JFrame {
     private JButton btnUbah;
     private JButton btnHapus;
     private JButton btnReset;
-    private JButton btnCetakSemua;
+    private JButton btnCetakTerpilih;
     private JButton btnCari;
 
     private JTable tablePeserta;
@@ -114,7 +113,7 @@ public class MasterPeserta extends JFrame {
         panelBawah = new JPanel(new BorderLayout(0, 5));
         panelCari = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 0));
 
-        lblJudul = new JLabel("Master Data Peserta", SwingConstants.CENTER);
+        lblJudul = new JLabel("Master Data Peserta & Pendaftaran", SwingConstants.CENTER);
         lblNim = new JLabel("Nim");
         lblNama = new JLabel("Nama Peserta");
         lblJenisKelamin = new JLabel("Jenis Kelamin");
@@ -154,17 +153,17 @@ public class MasterPeserta extends JFrame {
         txtRingkasan = new JTextArea(2, 20);
         scrollRingkasan = new JScrollPane(txtRingkasan);
 
-        // Tombol CRUD & Cetak
+        // Tombol CRUD & Cetak Terpilih
         btnSimpan = new JButton("Simpan");
         btnUbah = new JButton("Ubah");
         btnHapus = new JButton("Hapus");
         btnReset = new JButton("Reset");
-        btnCetakSemua = new JButton("Cetak Semua");
+        btnCetakTerpilih = new JButton("Cetak Pendaftaran");
         btnCari = new JButton("Cari");
 
-        // Inisialisasi JTable
+        // Inisialisasi JTable (Kolom 0 diasumsikan ID Pendaftaran)
         tableModel = new DefaultTableModel(
-            new String[]{"NIM", "Nama", "JK", "Prodi", "No HP", "Email"}, 0
+            new String[]{"ID Pendaftaran", "NIM", "Nama", "JK", "Prodi", "No HP", "Email"}, 0
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -228,7 +227,7 @@ public class MasterPeserta extends JFrame {
         setupButton(btnUbah, warnaUbah, Color.WHITE, 80, 30);
         setupButton(btnHapus, warnaHapus, Color.WHITE, 80, 30);
         setupButton(btnReset, warnaReset, Color.WHITE, 80, 30);
-        setupButton(btnCetakSemua, warnaCetak, Color.WHITE, 110, 30);
+        setupButton(btnCetakTerpilih, warnaCetak, Color.WHITE, 135, 30);
         setupButton(btnCari, warnaUbah, Color.WHITE, 80, 28);
 
         // Susunan tombol
@@ -236,7 +235,7 @@ public class MasterPeserta extends JFrame {
         panelTombol.add(btnUbah);
         panelTombol.add(btnHapus);
         panelTombol.add(btnReset);
-        panelTombol.add(btnCetakSemua);
+        panelTombol.add(btnCetakTerpilih);
 
         // Ukuran input
         Dimension dimField = new Dimension(480, 26);
@@ -290,7 +289,7 @@ public class MasterPeserta extends JFrame {
 
         panelBawah.setBorder(BorderFactory.createTitledBorder(
             BorderFactory.createLineBorder(warnaHeader),
-            " Data Peserta ",
+            " Data Pendaftaran & Peserta ",
             javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
             javax.swing.border.TitledBorder.DEFAULT_POSITION,
             fontLabel,
@@ -303,9 +302,8 @@ public class MasterPeserta extends JFrame {
         btnHapus.addActionListener(evt -> btnHapusActionPerformed());
         btnReset.addActionListener(evt -> btnResetActionPerformed());
 
-        btnCetakSemua.addActionListener(
-            evt -> btnCetakSemuaActionPerformed()
-        );
+        // Event Tombol Cetak Terpilih berdasarkan JTable
+        btnCetakTerpilih.addActionListener(evt -> btnCetakTerpilihActionPerformed());
 
         btnCari.addActionListener(evt -> prosesCariData());
         txtCari.addActionListener(evt -> prosesCariData());
@@ -393,8 +391,10 @@ public class MasterPeserta extends JFrame {
             }
 
             if (listPeserta != null) {
+                int idCounter = 1; 
                 for (Peserta p : listPeserta) {
                     Object[] rowData = {
+                        idCounter++, // Kolom 0: ID Pendaftaran
                         p.getNim(),
                         p.getNama(),
                         p.getJenisKelamin(),
@@ -421,11 +421,11 @@ public class MasterPeserta extends JFrame {
         int row = tablePeserta.getSelectedRow();
 
         if (row != -1) {
-            txtNim.setText(tableModel.getValueAt(row, 0).toString());
+            txtNim.setText(tableModel.getValueAt(row, 1).toString());
             txtNim.setEditable(false);
-            txtNama.setText(tableModel.getValueAt(row, 1).toString());
+            txtNama.setText(tableModel.getValueAt(row, 2).toString());
 
-            String jk = tableModel.getValueAt(row, 2).toString();
+            String jk = tableModel.getValueAt(row, 3).toString();
 
             if (jk.equalsIgnoreCase("L")) {
                 rbLaki.setSelected(true);
@@ -433,9 +433,9 @@ public class MasterPeserta extends JFrame {
                 rbPerempuan.setSelected(true);
             }
 
-            txtProdi.setText(tableModel.getValueAt(row, 3).toString());
-            txtNoHp.setText(tableModel.getValueAt(row, 4).toString());
-            txtEmail.setText(tableModel.getValueAt(row, 5).toString());
+            txtProdi.setText(tableModel.getValueAt(row, 4).toString());
+            txtNoHp.setText(tableModel.getValueAt(row, 5).toString());
+            txtEmail.setText(tableModel.getValueAt(row, 6).toString());
         }
     }
 
@@ -631,9 +631,33 @@ public class MasterPeserta extends JFrame {
         }
     }
 
-    // Tombol Cetak terhubung ke JasperReports
-    private void btnCetakSemuaActionPerformed() {
-        ReportService.tampilkanLaporanPeserta();
+    // Tombol Cetak Terpilih menggunakan ReportService yang benar
+    private void btnCetakTerpilihActionPerformed() {
+        int row = tablePeserta.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Pilih satu data pendaftaran pada tabel terlebih dahulu!",
+                "Peringatan",
+                JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        try {
+            int idPendaftaran = Integer.parseInt(tableModel.getValueAt(row, 0).toString());
+            
+            // Memanggil ReportService (menggunakan huruf R yang benar)
+            ReportService.cetakPendaftaran(idPendaftaran);
+            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Format ID Pendaftaran tidak valid.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
 
     private void tampilkanRingkasan(
